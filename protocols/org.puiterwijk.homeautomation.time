@@ -1,0 +1,14 @@
+.tick
+Type: topic
+Description: This fires at least once every five seconds
+Body: {'time': unix_timestamp}
+
+.get.request
+Type: queue
+Description: Request the current time
+Body: {}
+
+.get.response
+Type: topic
+Description: Provides the current time
+Body: {'time': unix_timestamp}

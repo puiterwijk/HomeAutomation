@@ -1,0 +1,5 @@
+All parts of the topic are seperated by periods.
+Everything is prefixed with org.puiterwijk.homeautomation.
+After that follows either test or prod, indicating if it's test or production.
+After that, the component-identifier follows.
+Please look in org.puiterwijk.homeautomation.$component for the next parts.
