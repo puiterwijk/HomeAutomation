@@ -19,15 +19,26 @@
 from HomeAutomation import BaseModule
 
 
-class DebugModule(BaseModule):
+class PublishModule(BaseModule):
     def __init__(self):
-        super(DebugModule, self).__init__()
-        self.subscribe('**',)
+        super(PublishModule, self).__init__()
+
+    def add_extra_arguments(self, parser):
+        parser.add_argument('topic', help='Message topic to send')
+        parser.add_argument('message', help='Message to send')
+        parser.add_argument('--queue', help='Set to send as a queue message',
+                            action='store_true')
+
+    def work(self):
+        self.send(self.args.topic,
+                  self.args.message,
+                  self.args.queue)
+        self.conn.disconnect()
 
     def message_received(self, topic, body):
         print 'Message [%s]: %s' % (topic, body)
 
 
 def run():
-    module = DebugModule()
+    module = PublishModule()
     module.work()

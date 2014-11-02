@@ -31,10 +31,8 @@ PREFIX = 'org.puiterwijk.homeautomation'
 class BaseModule(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self, description='A homeautomation module',
-                 extra_arguments=[]):
-        self.args = self._get_params(description,
-                                     extra_arguments)
+    def __init__(self, description='A homeautomation module'):
+        self.args = self._get_params(description)
 
         self.environment = self.args.environment
 
@@ -49,9 +47,11 @@ class BaseModule(object):
         self.conn.start()
         self.conn.connect()
 
-    def _get_params(self, description, extra_arguments):
-        # TODO: Read from config file
-        # TODO: Add extra_arguments
+    def add_extra_arguments(self, parser):
+        pass
+
+    def _get_params(self, description):
+        # TODO: Read defaults from config file
         parser = argparse.ArgumentParser(description=description)
         parser.add_argument('--server', help='Server address',
                             default='queue.puiterwijk.org')
@@ -63,8 +63,9 @@ class BaseModule(object):
                             default='testcert.pem')
         parser.add_argument('--key', help='Certificate key',
                             default='testcert.key')
-        parser.add_argument('--environment', help='environment',
+        parser.add_argument('--environment', help='Environment',
                             default='test')
+        self.add_extra_arguments(parser)
         return parser.parse_args()
 
     def work(self):

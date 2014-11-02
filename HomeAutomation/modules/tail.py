@@ -16,23 +16,18 @@
 # You should have received a copy of the GNU General Public License
 # along with HomeAutomation.  If not, see <http://www.gnu.org/licenses/>.
 
-from setuptools import setup, find_packages
+from HomeAutomation import BaseModule
 
-setup(name='HomeAutomation',
-      version='devel',
-      description='Home Automation',
-      author='Patrick Uiterwijk',
-      author_email='patrick@puiterwijk.org',
-      license='GPLv3+',
-      url='NOTYET',
-      packages=find_packages(),
-      install_requires=['stomp.py', 'soco'],
-      entry_points={
-          'console_scripts': [
-              'ha-timestamp = HomeAutomation.modules.timestamp:run',
-              'ha-publish = HomeAutomation.modules.publish:run',
-              'ha-tail = HomeAutomation.modules.tail:run',
-              'ha-sonos = HomeAutomation.modules.sonos:run',
-          ],
-      },
-)
+
+class TailModule(BaseModule):
+    def __init__(self):
+        super(TailModule, self).__init__()
+        self.subscribe('**',)
+
+    def message_received(self, topic, body):
+        print 'Message [%s]: %s' % (topic, body)
+
+
+def run():
+    module = TailModule()
+    module.work()
